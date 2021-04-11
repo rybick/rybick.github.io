@@ -1,0 +1,118 @@
+<html>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .break {
+            flex-basis: 100%;
+            height: 0;
+            width: 0;
+        }
+        #wrapper {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            height: 500px;
+        }
+        .block-wrapper {
+            width: 50%;
+            background-color: brown;
+            color: cornsilk;
+        }
+        .block-inner {
+            padding: 10px;
+        }
+        #d1 {
+            background-color: darkcyan;
+            /*float: left;*/
+        }
+        #d2 {
+            background-color: darkgreen;
+            /*float: right;*/
+        }
+        #d3 {
+            background-color: darkgoldenrod;
+            /*float: left;*/
+        }
+        #d4 {
+            background-color: darkslateblue;
+            /*float: right;*/
+        }
+        #content12 {
+            width: 100px;
+            height: 100px;
+            padding: 5px;
+            background-color: deeppink;
+        }
+        #content42 {
+            width: 64px;
+            height: 64px;
+            padding: 6px;
+            background-color: dodgerblue;
+        }
+        @media screen and (max-width: 800px) {
+            .block-wrapper {
+                width: 100%;
+            }
+        }
+    </style>
+    <body>
+        <div id="wrapper">
+            <div id="d1" class="block-wrapper">
+                <div class="block-inner">
+                    <div id="content11">
+                        <p>Dolor Amet</p>
+                        <p>Sinus Bimus</p>
+                    </div>
+                    <div id="content12">
+                        baba
+                    </div>
+                </div>
+            </div>
+            <div id="d2" class="block-wrapper">
+                <div class="block-inner">
+                    <div>Lorem Ipsum</div>
+                </div>                   
+                <div id="content12">
+                    xaxa
+                </div>
+                <div id="content12">
+                    xaxa
+                </div>
+                <div id="content12">
+                    xaxa
+                </div>
+                <div id="content12">
+                    xaxa
+                </div>
+                <div id="content12">
+                    xaxa
+                </div>
+                <div id="content12">
+                    xaxa
+                </div>
+                <div class="block-inner">
+                    XX
+                </div>
+            </div>
+            <div class="break"></div>
+            <div id="d3" class="block-wrapper">
+                <div class="block-inner">
+                    Baby don't hurt me
+                </div>
+            </div>
+            <div id="d4" class="block-wrapper">
+                <div class="block-inner">
+                    <div id="content41">
+                        <p>No more</p>
+                        <p>bum bum</p>
+                    </div>
+                    <div id="content42">
+                        caca
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
