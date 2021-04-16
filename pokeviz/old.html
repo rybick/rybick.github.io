@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Minimal GoJS Sample</title>
+  <meta name="description" content="An almost minimal diagram using a very simple node template and the default link template." />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="go.js"></script>
+  <script src="counters2.js"></script>
+  <script id="code">
+  function groupBy(data, n) {
+    return data.reduce((r, e, i) => (i % n ? r[r.length - 1].push(e) : r.push([e])) && r, [])
+  }
+  
+  function init() {
+    const typeCounters = groupBy(TYPE_COUNTERS, 4)
+        .map((a) => ({type: a[0], strong: a[1].split(" "), weak: a[2].split(" "), superWeak: a[3].split(" ")}));
+
+    const $ = go.GraphObject.make;  // for conciseness in defining templates
+
+    myDiagram = $(go.Diagram, "myDiagramDiv",  // create a Diagram for the DIV HTML element
+        { 
+            "undoManager.isEnabled": true,
+            layout: new go.CircularLayout(),
+            click: function(e) {
+                e.diagram.clearHighlighteds();
+            }
+        }
+    );
+        
+    myDiagram.nodeTemplate = $(go.Node, "Spot",
+        { 
+            isClipping: true, 
+            scale: 1,
+            click: function(e, node) {
+                var diagram = node.diagram;
+                diagram.startTransaction("highlight");
+                diagram.clearHighlighteds();
+                node.findLinksOutOf().each(function(l) { l.isHighlighted = true; });
+                node.findNodesOutOf().each(function(n) { n.isHighlighted = true; });
+                node.findLinksInto().each(function(l) { l.isHighlighted = true; });
+                node.findNodesInto().each(function(n) { n.isHighlighted = true; });
+                diagram.commitTransaction("highlight");
+            }
+        },
+        $(go.Shape, "Ellipse", { desiredSize: new go.Size(55, 55), strokeWidth: 0}),
+        $(go.Shape, "Ellipse", 
+            { desiredSize: new go.Size(50, 50), strokeWidth: 5 }, 
+            new go.Binding("stroke", "isHighlighted", function(h) { return h ? "black" : "gray"; }).ofObject()
+        ),
+        $(go.Picture,
+          // Pictures should normally have an explicit width and height.
+          // This picture has a red background, only visible when there is no source set
+          // or when the image is partially transparent.
+          { margin: 0, width: 50, height: 50, background: "transparent" },
+          // Picture.source is data bound to the "source" attribute of the model data
+          new go.Binding("source")
+        )
+    );
+
+    myDiagram.linkTemplate =
+      $(go.Link,
+          $(go.Shape, 
+              { strokeWidth: 2 }, 
+              new go.Binding("stroke", "color"), 
+              new go.Binding("opacity", "isHighlighted", function(h) { return h ? "1.0" : "0.3"; }).ofObject()
+          ),
+          $(go.Shape, 
+              { toArrow: "Standard", scale: 1.5 },
+              new go.Binding("fill", "color"),
+              new go.Binding("stroke", "color"),
+              new go.Binding("opacity", "isHighlighted", function(h) { return h ? "1.0" : "0.3"; }).ofObject()
+          )
+      ); // bigger arrowhead
+
+    myDiagram.layout.spacing = 30;
+
+    myDiagram.model = new go.GraphLinksModel(
+        typeCounters.map(t => ({ key: t.type, source: `icons/Icon_${t.type}.png`})),
+        []
+            .concat(typeCounters.flatMap(t => t.strong.map(s => ({ from: t.type, to: s, color: '#00ad05' })))) // 53c256
+            .concat(typeCounters.flatMap(t => t.weak.map(s => ({ from: t.type, to: s, color: '#f94f52' }))))
+            .concat(typeCounters.flatMap(t => t.superWeak.map(s => ({ from: t.type, to: s, color: '#702a2a' })))) //bf2426
+    );
+  }
+  </script>
+</head>
+<body onload="init()">
+<div id="sample">
+  <!-- The DIV for the Diagram needs an explicit size or else we won't see anything.
+       This also adds a border to help see the edges of the viewport. -->
+  <div id="myDiagramDiv" style="border: solid 1px black; width:1200px; height:800px"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Poke Viz</title>
+    <meta name="description" content="An almost minimal diagram using a very simple node template and the default link template." />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="go.js"></script>
+    <script src="counters2.js"></script>
+    <script src="TriangleLink.js"></script>
+    <script id="code">
+        const COLORS = {
+            main: {
+                strong: '#00ad05',
+                weak: '#f94f52',
+                superWeak: '#702a2a'
+            },
+            secondary: {
+                strong: '#f8f00e',
+                weak: '#ff5be2',
+                superWeak: '#9d9d9d'
+            }
+        }
+    
+        function groupBy(data, n) {
+            return data.reduce((r, e, i) => (i % n ? r[r.length - 1].push(e) : r.push([e])) && r, [])
+        }
+      
+        function typeCountersToNodes(typeCounters) {
+            return typeCounters.map(t => ({ 
+                key: t.type, 
+                source: `icons/Icon_${t.type}.png`,
+                isMain: t.isMain, 
+                ...convertLinkTypeToNodeColors(findSelfLinkType(t))
+            }))
+        }
+        
+        function typeCountersToLinks(typeCounters) {
+            return []
+                .concat(typeCounters.flatMap(t => t.strong.map(s => ({ from: t.type, to: s, color: t.isMain ? COLORS.main.strong : COLORS.secondary.strong, zOrder: t.isMain ? 2 : 1 }))))
+                .concat(typeCounters.flatMap(t => t.weak.map(s => ({ from: t.type, to: s, color: t.isMain ? COLORS.main.weak : COLORS.secondary.weak, zOrder: t.isMain ? 2 : 1 }))))
+                .concat(typeCounters.flatMap(t => t.superWeak.map(s => ({ from: t.type, to: s, color: t.isMain ?  COLORS.main.superWeak : COLORS.secondary.superWeak, zOrder: t.isMain ? 2 : 1 }))));
+        }
+        
+        function findSelfLinkType(typeCounter) {
+            return ['strong', 'weak', 'superWeak']
+                .map(name => ({ name: name, value: !!typeCounter[name].filter(t => t == typeCounter.type).length }))
+                .filter(v => v.value)[0]?.name
+        }
+        
+        function convertLinkTypeToNodeColors(linkType) {
+            return linkType 
+                ? { color1: COLORS.main[linkType], color2: COLORS.secondary[linkType] }
+                : { color1: 'black', color2: 'black' };
+        }
+        
+        function filterTypeCounters(typeCounters, filteredType) {
+            return typeCounters.map(t => 
+                t.type == filteredType
+                    ? { ...t, isMain: true } 
+                    : {
+                        type: t.type,
+                        strong: t.strong.filter(x => x == filteredType || x == t.type),
+                        weak: t.weak.filter(x => x == filteredType || x == t.type),
+                        superWeak: t.superWeak.filter(x => x == filteredType || x == t.type),
+                        isMain: false
+                    }
+            );
+        }
+      
+        function init() {
+            const typeCounters = groupBy(TYPE_COUNTERS, 4)
+                .map((a) => ({type: a[0], strong: a[1].split(" "), weak: a[2].split(" "), superWeak: a[3].split(" ")}));
+
+            const $ = go.GraphObject.make;  // for conciseness in defining templates
+
+            myDiagram = $(go.Diagram, "myDiagramDiv",  // create a Diagram for the DIV HTML element
+                {
+                    autoScale: go.Diagram.Uniform,
+                    "undoManager.isEnabled": true,
+                    layout: new go.ForceDirectedLayout(), //go.CircularLayout(),
+                    click: function(e) {
+                        e.diagram.clearHighlighteds();
+                    }
+                }
+            );
+                
+            myDiagram.nodeTemplate = $(go.Node, "Spot",
+                { 
+                    isClipping: true, 
+                    scale: 1,
+                    click: function(e, node) {
+                        const diagram = node.diagram;
+                        const filteredTypeCounters = filterTypeCounters(typeCounters, node.key);
+                        diagram.model.nodeDataArray = typeCountersToNodes(filteredTypeCounters);
+                        diagram.model.linkDataArray = typeCountersToLinks(filteredTypeCounters);
+                    }
+                },
+                new go.Binding("scale", "isMain", function(m) { return m ? 2 : 1; }),
+                $(go.Shape, "Ellipse", { desiredSize: new go.Size(55, 55), strokeWidth: 0 }), 
+                $(go.Shape, "Ellipse", 
+                    { desiredSize: new go.Size(50, 50), strokeWidth: 5 },
+                    new go.Binding("stroke", "color2")
+                ),
+                 $(go.Shape, "Ellipse", 
+                    { desiredSize: new go.Size(50, 50), strokeWidth: 3 },
+                    new go.Binding("stroke", "color1")
+                ),
+                $(go.Picture,
+                  { margin: 0, width: 50, height: 50, background: "transparent" },
+                  new go.Binding("source"),
+                ),
+            );
+
+            myDiagram.linkTemplate =
+                $(TriangleLink,
+                  $(go.Shape,
+                    { strokeWidth: 1, stroke: 'gray'},
+                    new go.Binding("fill", "color")
+                  ), 
+                  new go.Binding("zOrder")
+                );
+
+            myDiagram.layout.defaultElectricalCharge = 10;
+
+            myDiagram.model = new go.GraphLinksModel(
+                typeCountersToNodes(typeCounters),
+                []
+            );
+      }
+    </script>
+</head>
+<body onload="init()" style="padding: 0px; margin: 0px">
+    <div id="sample">
+        <!-- The DIV for the Diagram needs an explicit size or else we won't see anything.
+           This also adds a border to help see the edges of the viewport. -->
+        <div id="myDiagramDiv" style="border: solid 1px black; width:100%; height:800px; margin: 0px"></div>
+    </div>
+</body>
+</html>
