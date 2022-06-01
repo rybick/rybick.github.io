@@ -1,1 +1,0 @@
-{"id":684,"name":"Swirlix","baseAttack":109,"baseDefense":119,"baseStamina":158,"types":{"primary":"fairy","secondary":null},"moves":{"quick":[{"id":"TACKLE_FAST","elite":false}],"charged":[{"id":"DRAINING_KISS","elite":false},{"id":"ENERGY_BALL","elite":false}]}}

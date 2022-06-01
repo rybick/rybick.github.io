@@ -1,1 +1,0 @@
-{"id":597,"name":"Ferroseed","baseAttack":82,"baseDefense":155,"baseStamina":127,"types":{"primary":"grass","secondary":"steel"},"moves":{"quick":[{"id":"TACKLE_FAST","elite":false},{"id":"METAL_CLAW_FAST","elite":false}],"charged":[{"id":"GYRO_BALL","elite":false},{"id":"FLASH_CANNON","elite":false},{"id":"IRON_HEAD","elite":false}]}}

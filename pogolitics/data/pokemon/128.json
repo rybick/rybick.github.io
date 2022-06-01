@@ -1,1 +1,0 @@
-{"id":128,"name":"Tauros","baseAttack":198,"baseDefense":183,"baseStamina":181,"types":{"primary":"normal","secondary":null},"moves":{"quick":[{"id":"TACKLE_FAST","elite":false},{"id":"ZEN_HEADBUTT_FAST","elite":false}],"charged":[{"id":"HORN_ATTACK","elite":false},{"id":"IRON_HEAD","elite":false},{"id":"EARTHQUAKE","elite":false}]}}

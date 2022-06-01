@@ -1,1 +1,0 @@
-{"id":592,"name":"Frillish","baseAttack":115,"baseDefense":134,"baseStamina":146,"types":{"primary":"water","secondary":"ghost"},"moves":{"quick":[{"id":"BUBBLE_FAST","elite":false},{"id":"HEX_FAST","elite":false}],"charged":[{"id":"NIGHT_SHADE","elite":false},{"id":"ICE_BEAM","elite":false},{"id":"OMINOUS_WIND","elite":false}]}}

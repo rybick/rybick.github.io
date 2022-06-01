@@ -1,1 +1,0 @@
-{"id":391,"name":"Monferno","baseAttack":158,"baseDefense":105,"baseStamina":162,"types":{"primary":"fire","secondary":"fighting"},"moves":{"quick":[{"id":"EMBER_FAST","elite":false},{"id":"ROCK_SMASH_FAST","elite":false}],"charged":[{"id":"FLAME_WHEEL","elite":false},{"id":"FLAMETHROWER","elite":false},{"id":"LOW_SWEEP","elite":false}]}}

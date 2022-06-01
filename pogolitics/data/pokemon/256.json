@@ -1,1 +1,0 @@
-{"id":256,"name":"Combusken","baseAttack":163,"baseDefense":115,"baseStamina":155,"types":{"primary":"fire","secondary":"fighting"},"moves":{"quick":[{"id":"PECK_FAST","elite":false},{"id":"EMBER_FAST","elite":false}],"charged":[{"id":"FLAME_CHARGE","elite":false},{"id":"FLAMETHROWER","elite":false},{"id":"ROCK_SLIDE","elite":false}]}}

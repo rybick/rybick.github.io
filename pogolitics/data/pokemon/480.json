@@ -1,1 +1,0 @@
-{"id":480,"name":"Uxie","baseAttack":156,"baseDefense":270,"baseStamina":181,"types":{"primary":"psychic","secondary":null},"moves":{"quick":[{"id":"CONFUSION_FAST","elite":false},{"id":"EXTRASENSORY_FAST","elite":false}],"charged":[{"id":"FUTURESIGHT","elite":false},{"id":"SWIFT","elite":false},{"id":"THUNDER","elite":false}]}}

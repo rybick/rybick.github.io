@@ -1,1 +1,0 @@
-{"id":129,"name":"Magikarp","baseAttack":29,"baseDefense":85,"baseStamina":85,"types":{"primary":"water","secondary":null},"moves":{"quick":[{"id":"SPLASH_FAST","elite":false}],"charged":[{"id":"STRUGGLE","elite":false}]}}

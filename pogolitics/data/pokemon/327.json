@@ -1,1 +1,0 @@
-{"id":327,"name":"Spinda","baseAttack":116,"baseDefense":116,"baseStamina":155,"types":{"primary":"normal","secondary":null},"moves":{"quick":[{"id":"SUCKER_PUNCH_FAST","elite":false},{"id":"PSYCHO_CUT_FAST","elite":false}],"charged":[{"id":"DIG","elite":false},{"id":"ROCK_TOMB","elite":false},{"id":"ICY_WIND","elite":false}]}}
