@@ -6,13 +6,8 @@ body {
     flex-direction: column;
 }
 
-#search {
-    width: 100%;
-}
-
-#main-title {
-  text-align: center;
-  font-weight: lighter;
+table {
+  table-layout: auto;
 }
 
 body > footer {
@@ -20,7 +15,14 @@ body > footer {
   display: flex;
   justify-content: space-between;
   padding: 1rem 2rem;
-  background: #f0f0f0;
-  color: #333;
   font-size: 0.9rem;
+}
+
+#search {
+    width: 100%;
+}
+
+#main-title {
+  text-align: center;
+  font-weight: lighter;
 }
